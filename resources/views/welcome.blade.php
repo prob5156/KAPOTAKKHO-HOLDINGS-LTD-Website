@@ -33,10 +33,10 @@
                         </p>
                         
                         <div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-                            <a href="#divisions" class="px-8 py-4 rounded-sm bg-gold-600 text-navy-950 font-bold hover:bg-gold-700 transition-all text-sm uppercase tracking-wider text-center shadow-lg hover:shadow-gold-600/10">
+                            <a href="{{ route('divisions') }}" class="px-8 py-4 rounded-sm bg-gold-600 text-navy-950 font-bold hover:bg-gold-700 transition-all text-sm uppercase tracking-wider text-center shadow-lg hover:shadow-gold-600/10">
                                 Our Business Units
                             </a>
-                            <a href="#about" class="px-8 py-4 rounded-sm bg-transparent border-2 border-slate-600 text-white font-bold hover:border-gold-600 hover:text-gold-600 transition-all text-sm uppercase tracking-wider text-center">
+                            <a href="{{ route('about') }}" class="px-8 py-4 rounded-sm bg-transparent border-2 border-slate-600 text-white font-bold hover:border-gold-600 hover:text-gold-600 transition-all text-sm uppercase tracking-wider text-center">
                                 Corporate Profile
                             </a>
                         </div>
@@ -145,15 +145,34 @@
                             <div class="w-12 h-12 rounded-lg bg-navy-800 border border-navy-700 flex items-center justify-center mb-6 group-hover:bg-gold-600 group-hover:text-navy-950 transition-all">
                                 <svg class="w-6 h-6 text-gold-600 group-hover:text-navy-950 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
                             </div>
-                            <h3 class="text-xl font-semibold mb-3">Real Estate</h3>
+                            <h3 class="text-xl font-semibold mb-3">Real Estate & Properties</h3>
                             <p class="text-slate-400 text-sm leading-relaxed mb-6">
                                 Crafting luxury architectural footprints, prime commercial facilities, and residential environments featuring world-class amenities and structural design.
                             </p>
                         </div>
-                        <a href="#contact" class="inline-flex items-center gap-1.5 text-xs font-semibold text-gold-600 group-hover:text-white transition-colors uppercase tracking-wider">
-                            Explore Services
+                        <button onclick="openDrawer({
+                            badge: 'Division Overview',
+                            title: 'Real Estate & Properties Division',
+                            linkText: 'Go to Divisions Page',
+                            linkUrl: '{{ route('divisions') }}',
+                            content: `
+                                <p class='text-slate-300 mb-4'>Kapotakkhho Properties Ltd. leads high-value architectural ventures across Dhaka, Chittagong, and Sylhet. With over 58 completed signature developments, we deliver 5,000+ luxury residential and commercial units built with earthquake-resistant technology.</p>
+                                <h4 class='text-gold-600 font-bold text-xs uppercase tracking-wider mb-2'>Core Capabilities</h4>
+                                <ul class='space-y-2 text-xs text-slate-400 mb-6'>
+                                    <li class='flex items-center gap-2'><span class='w-1.5 h-1.5 rounded-full bg-gold-600'></span> 24-Storied Commercial High-Rises & Facades</li>
+                                    <li class='flex items-center gap-2'><span class='w-1.5 h-1.5 rounded-full bg-gold-600'></span> Planned Township & Gated Communities</li>
+                                    <li class='flex items-center gap-2'><span class='w-1.5 h-1.5 rounded-full bg-gold-600'></span> Automated Smart Fire & Security Systems</li>
+                                    <li class='flex items-center gap-2'><span class='w-1.5 h-1.5 rounded-full bg-gold-600'></span> Property Management & Asset Valuation</li>
+                                </ul>
+                                <div class='p-4 bg-navy-900 border border-navy-800 rounded-lg flex justify-between items-center text-xs'>
+                                    <span class='text-slate-400'>Delivered Projects:</span>
+                                    <span class='text-gold-600 font-bold text-sm'>58+ Landmarks</span>
+                                </div>
+                            `
+                        })" class="inline-flex items-center gap-1.5 text-xs font-semibold text-gold-600 hover:text-white transition-colors uppercase tracking-wider text-left">
+                            Explore Services & Specs
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                        </a>
+                        </button>
                     </div>
 
                     <!-- Construction -->
@@ -167,10 +186,28 @@
                                 Providing major civil contracting, construction management, structural designs, and raw material logistics for private and public sector developments.
                             </p>
                         </div>
-                        <a href="#contact" class="inline-flex items-center gap-1.5 text-xs font-semibold text-gold-600 group-hover:text-white transition-colors uppercase tracking-wider">
-                            Explore Services
+                        <button onclick="openDrawer({
+                            badge: 'Division Overview',
+                            title: 'Civil Engineering & Construction',
+                            linkText: 'Explore Divisions',
+                            linkUrl: '{{ route('divisions') }}',
+                            content: `
+                                <p class='text-slate-300 mb-4'>Kapotakkhho Engineering Ltd. holds ISO 9001:2015 certification for heavy structural contracting. We execute mega civil projects with zero-accident safety records and advanced heavy machinery fleets.</p>
+                                <h4 class='text-gold-600 font-bold text-xs uppercase tracking-wider mb-2'>Key Services</h4>
+                                <ul class='space-y-2 text-xs text-slate-400 mb-6'>
+                                    <li class='flex items-center gap-2'><span class='w-1.5 h-1.5 rounded-full bg-gold-600'></span> Heavy Foundation & Piling Works</li>
+                                    <li class='flex items-center gap-2'><span class='w-1.5 h-1.5 rounded-full bg-gold-600'></span> Industrial Complex & Steel Fabrication</li>
+                                    <li class='flex items-center gap-2'><span class='w-1.5 h-1.5 rounded-full bg-gold-600'></span> Structural Audits & Retrofitting</li>
+                                </ul>
+                                <div class='p-4 bg-navy-900 border border-navy-800 rounded-lg flex justify-between items-center text-xs'>
+                                    <span class='text-slate-400'>Track Record:</span>
+                                    <span class='text-gold-600 font-bold text-sm'>42 Completed Contracts</span>
+                                </div>
+                            `
+                        })" class="inline-flex items-center gap-1.5 text-xs font-semibold text-gold-600 hover:text-white transition-colors uppercase tracking-wider text-left">
+                            Explore Services & Specs
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                        </a>
+                        </button>
                     </div>
 
                     <!-- Trading -->
@@ -179,15 +216,29 @@
                             <div class="w-12 h-12 rounded-lg bg-navy-800 border border-navy-700 flex items-center justify-center mb-6 group-hover:bg-gold-600 group-hover:text-navy-950 transition-all">
                                 <svg class="w-6 h-6 text-gold-600 group-hover:text-navy-950 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                             </div>
-                            <h3 class="text-xl font-semibold mb-3">Trading</h3>
+                            <h3 class="text-xl font-semibold mb-3">Trading & Logistics</h3>
                             <p class="text-slate-400 text-sm leading-relaxed mb-6">
                                 Managing import, export, commodity trading, supply chain management, and distribution of industrial equipment and manufacturing items.
                             </p>
                         </div>
-                        <a href="#contact" class="inline-flex items-center gap-1.5 text-xs font-semibold text-gold-600 group-hover:text-white transition-colors uppercase tracking-wider">
-                            Explore Services
+                        <button onclick="openDrawer({
+                            badge: 'Division Overview',
+                            title: 'Trading & Supply Chain Division',
+                            linkText: 'View All Divisions',
+                            linkUrl: '{{ route('divisions') }}',
+                            content: `
+                                <p class='text-slate-300 mb-4'>Kapotakkhho Global Trade Ltd. manages an annual turnover of $85M+ in international commodities, bonded warehousing, and heavy machinery logistics across Chittagong and Mongla ports.</p>
+                                <h4 class='text-gold-600 font-bold text-xs uppercase tracking-wider mb-2'>Core Operations</h4>
+                                <ul class='space-y-2 text-xs text-slate-400 mb-6'>
+                                    <li class='flex items-center gap-2'><span class='w-1.5 h-1.5 rounded-full bg-gold-600'></span> Industrial Equipment Import & Customs Clearance</li>
+                                    <li class='flex items-center gap-2'><span class='w-1.5 h-1.5 rounded-full bg-gold-600'></span> Agro-Commodity Bulk Import (Palm Oil, Grains)</li>
+                                    <li class='flex items-center gap-2'><span class='w-1.5 h-1.5 rounded-full bg-gold-600'></span> Bonded Warehousing & Freight Logistics</li>
+                                </ul>
+                            `
+                        })" class="inline-flex items-center gap-1.5 text-xs font-semibold text-gold-600 hover:text-white transition-colors uppercase tracking-wider text-left">
+                            Explore Services & Specs
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                        </a>
+                        </button>
                     </div>
 
                     <!-- Infrastructure -->
@@ -201,10 +252,24 @@
                                 Connecting communities via advanced public utilities, arterial expressways, modern bridges, and reliable power distribution systems.
                             </p>
                         </div>
-                        <a href="#contact" class="inline-flex items-center gap-1.5 text-xs font-semibold text-gold-600 group-hover:text-white transition-colors uppercase tracking-wider">
-                            Explore Services
+                        <button onclick="openDrawer({
+                            badge: 'Division Overview',
+                            title: 'Infrastructure & Public Utilities',
+                            linkText: 'View Projects',
+                            linkUrl: '{{ route('projects') }}',
+                            content: `
+                                <p class='text-slate-300 mb-4'>Kapotakkhho Infra Ltd. executes government-backed contracts exceeding BDT 1,200 Crore. We build critical transport arteries, power grid sub-stations, and water management infrastructure.</p>
+                                <h4 class='text-gold-600 font-bold text-xs uppercase tracking-wider mb-2'>Sector Focus</h4>
+                                <ul class='space-y-2 text-xs text-slate-400 mb-6'>
+                                    <li class='flex items-center gap-2'><span class='w-1.5 h-1.5 rounded-full bg-gold-600'></span> Expressways & Highway Bridges</li>
+                                    <li class='flex items-center gap-2'><span class='w-1.5 h-1.5 rounded-full bg-gold-600'></span> 132kV Power Transmission & Grid Sub-stations</li>
+                                    <li class='flex items-center gap-2'><span class='w-1.5 h-1.5 rounded-full bg-gold-600'></span> Municipal Water Treatment Plants</li>
+                                </ul>
+                            `
+                        })" class="inline-flex items-center gap-1.5 text-xs font-semibold text-gold-600 hover:text-white transition-colors uppercase tracking-wider text-left">
+                            Explore Services & Specs
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                        </a>
+                        </button>
                     </div>
 
                     <!-- Agriculture -->
@@ -213,15 +278,29 @@
                             <div class="w-12 h-12 rounded-lg bg-navy-800 border border-navy-700 flex items-center justify-center mb-6 group-hover:bg-gold-600 group-hover:text-navy-950 transition-all">
                                 <svg class="w-6 h-6 text-gold-600 group-hover:text-navy-950 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707-.707M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                             </div>
-                            <h3 class="text-xl font-semibold mb-3">Agriculture</h3>
+                            <h3 class="text-xl font-semibold mb-3">Agribusiness</h3>
                             <p class="text-slate-400 text-sm leading-relaxed mb-6">
                                 Investing in modern farming tech, organic processing units, cold storage networks, and localized distribution of nutritional produce.
                             </p>
                         </div>
-                        <a href="#contact" class="inline-flex items-center gap-1.5 text-xs font-semibold text-gold-600 group-hover:text-white transition-colors uppercase tracking-wider">
-                            Explore Services
+                        <button onclick="openDrawer({
+                            badge: 'Division Overview',
+                            title: 'Agribusiness & Food Systems',
+                            linkText: 'Read Division Details',
+                            linkUrl: '{{ route('divisions') }}',
+                            content: `
+                                <p class='text-slate-300 mb-4'>Kapotakkhho Agro Ltd. supports 50,000+ local farming partners with tech-enabled cold storage, organic processing plants, and direct farm-to-table logistics.</p>
+                                <h4 class='text-gold-600 font-bold text-xs uppercase tracking-wider mb-2'>Facilities</h4>
+                                <ul class='space-y-2 text-xs text-slate-400 mb-6'>
+                                    <li class='flex items-center gap-2'><span class='w-1.5 h-1.5 rounded-full bg-gold-600'></span> 10,000 MT Automated Cold Storage Units</li>
+                                    <li class='flex items-center gap-2'><span class='w-1.5 h-1.5 rounded-full bg-gold-600'></span> Organic Fruit & Grain Processing Lines</li>
+                                    <li class='flex items-center gap-2'><span class='w-1.5 h-1.5 rounded-full bg-gold-600'></span> Contract Farming & Agronomy Support</li>
+                                </ul>
+                            `
+                        })" class="inline-flex items-center gap-1.5 text-xs font-semibold text-gold-600 hover:text-white transition-colors uppercase tracking-wider text-left">
+                            Explore Services & Specs
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                        </a>
+                        </button>
                     </div>
 
                     <!-- Technology -->
@@ -235,10 +314,24 @@
                                 Facilitating national digitalization with custom enterprise solutions, smart billing portals, IoT networks, and private cloud centers.
                             </p>
                         </div>
-                        <a href="#contact" class="inline-flex items-center gap-1.5 text-xs font-semibold text-gold-600 group-hover:text-white transition-colors uppercase tracking-wider">
-                            Explore Services
+                        <button onclick="openDrawer({
+                            badge: 'Division Overview',
+                            title: 'Technology & Digital Systems',
+                            linkText: 'Explore Digital Systems',
+                            linkUrl: '{{ route('divisions') }}',
+                            content: `
+                                <p class='text-slate-300 mb-4'>Kapotakkhho Digital Ltd. powers enterprise digitization for major corporations and government bodies with proprietary cloud architectures and IoT sensor arrays.</p>
+                                <h4 class='text-gold-600 font-bold text-xs uppercase tracking-wider mb-2'>Solutions</h4>
+                                <ul class='space-y-2 text-xs text-slate-400 mb-6'>
+                                    <li class='flex items-center gap-2'><span class='w-1.5 h-1.5 rounded-full bg-gold-600'></span> Custom Enterprise ERP & Oracle Middleware</li>
+                                    <li class='flex items-center gap-2'><span class='w-1.5 h-1.5 rounded-full bg-gold-600'></span> Smart City & Traffic Surveillance Platforms</li>
+                                    <li class='flex items-center gap-2'><span class='w-1.5 h-1.5 rounded-full bg-gold-600'></span> Private Cloud & Cyber-Defense Architecture</li>
+                                </ul>
+                            `
+                        })" class="inline-flex items-center gap-1.5 text-xs font-semibold text-gold-600 hover:text-white transition-colors uppercase tracking-wider text-left">
+                            Explore Services & Specs
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                        </a>
+                        </button>
                     </div>
 
                 </div>
@@ -356,7 +449,7 @@
                         <span class="text-gold-600 font-bold text-xs uppercase tracking-widest mb-3 block">Corporate Portfolio</span>
                         <h2 class="text-3xl sm:text-4xl font-serif font-bold text-navy-900">Featured Landmarks</h2>
                     </div>
-                    <a href="#contact" class="inline-flex items-center gap-2 text-sm font-bold text-navy-900 hover:text-gold-600 transition-colors uppercase tracking-wider">
+                    <a href="{{ route('projects') }}" class="inline-flex items-center gap-2 text-sm font-bold text-navy-900 hover:text-gold-600 transition-colors uppercase tracking-wider">
                         View All Assets
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                     </a>
@@ -366,7 +459,23 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     
                     <!-- Project 1 -->
-                    <div class="bg-white rounded-xl overflow-hidden shadow-md border border-slate-200 group hover:shadow-xl transition-all duration-300">
+                    <div onclick="openDrawer({
+                        badge: 'Project Landmark',
+                        title: 'Kapotakkhho Imperial Tower',
+                        linkText: 'View All Portfolio Assets',
+                        linkUrl: '{{ route('projects') }}',
+                        content: `
+                            <p class='text-slate-300 mb-4'>A 24-storied luxury commercial high-rise integrating structural safety parameters, automated fire systems, and double-glazed low-E facades in Dhaka.</p>
+                            <div class='grid grid-cols-2 gap-3 mb-6 text-xs'>
+                                <div class='p-3 bg-navy-900 border border-navy-800 rounded'><span class='text-slate-400 block'>Location:</span><span class='text-white font-bold'>Dhaka, Bangladesh</span></div>
+                                <div class='p-3 bg-navy-900 border border-navy-800 rounded'><span class='text-slate-400 block'>Sector:</span><span class='text-gold-600 font-bold'>Real Estate</span></div>
+                                <div class='p-3 bg-navy-900 border border-navy-800 rounded'><span class='text-slate-400 block'>Status:</span><span class='text-green-400 font-bold'>Completed (2022)</span></div>
+                                <div class='p-3 bg-navy-900 border border-navy-800 rounded'><span class='text-slate-400 block'>Height:</span><span class='text-white font-bold'>24 Storeys</span></div>
+                            </div>
+                            <h4 class='text-gold-600 font-bold text-xs uppercase tracking-wider mb-2'>Technical Specifications</h4>
+                            <p class='text-xs text-slate-400 leading-relaxed'>Built with Grade-60 reinforced steel, seismic dampers for 7.5 Richter scale tolerance, central HVAC, and 4-tier basement parking.</p>
+                        `
+                    })" class="bg-white rounded-xl overflow-hidden shadow-md border border-slate-200 group hover:shadow-xl transition-all duration-300 cursor-pointer">
                         <div class="relative h-64 bg-navy-950 overflow-hidden flex items-center justify-center text-white">
                             <span class="font-serif text-8xl font-black text-navy-900 select-none">K</span>
                             <div class="absolute inset-0 bg-gradient-to-t from-navy-950 via-transparent to-transparent opacity-80"></div>
@@ -382,7 +491,21 @@
                     </div>
 
                     <!-- Project 2 -->
-                    <div class="bg-white rounded-xl overflow-hidden shadow-md border border-slate-200 group hover:shadow-xl transition-all duration-300">
+                    <div onclick="openDrawer({
+                        badge: 'Infrastructure Project',
+                        title: 'Meghna Bridge Expansion',
+                        linkText: 'View All Portfolio Assets',
+                        linkUrl: '{{ route('projects') }}',
+                        content: `
+                            <p class='text-slate-300 mb-4'>Executing critical structural girders and dynamic load tests for the national bridge expansion initiative to handle heavy cargo vehicles.</p>
+                            <div class='grid grid-cols-2 gap-3 mb-6 text-xs'>
+                                <div class='p-3 bg-navy-900 border border-navy-800 rounded'><span class='text-slate-400 block'>Location:</span><span class='text-white font-bold'>Narayanganj, BD</span></div>
+                                <div class='p-3 bg-navy-900 border border-navy-800 rounded'><span class='text-slate-400 block'>Sector:</span><span class='text-gold-600 font-bold'>Infrastructure</span></div>
+                                <div class='p-3 bg-navy-900 border border-navy-800 rounded'><span class='text-slate-400 block'>Status:</span><span class='text-green-400 font-bold'>Completed</span></div>
+                                <div class='p-3 bg-navy-900 border border-navy-800 rounded'><span class='text-slate-400 block'>Span:</span><span class='text-white font-bold'>1.2 Kilometers</span></div>
+                            </div>
+                        `
+                    })" class="bg-white rounded-xl overflow-hidden shadow-md border border-slate-200 group hover:shadow-xl transition-all duration-300 cursor-pointer">
                         <div class="relative h-64 bg-navy-950 overflow-hidden flex items-center justify-center text-white">
                             <span class="font-serif text-8xl font-black text-navy-900 select-none">H</span>
                             <div class="absolute inset-0 bg-gradient-to-t from-navy-950 via-transparent to-transparent opacity-80"></div>
@@ -398,7 +521,21 @@
                     </div>
 
                     <!-- Project 3 -->
-                    <div class="bg-white rounded-xl overflow-hidden shadow-md border border-slate-200 group hover:shadow-xl transition-all duration-300">
+                    <div onclick="openDrawer({
+                        badge: 'Agro Landmark',
+                        title: 'Green Horizon Agro Park',
+                        linkText: 'View All Portfolio Assets',
+                        linkUrl: '{{ route('projects') }}',
+                        content: `
+                            <p class='text-slate-300 mb-4'>Expanding local agribusiness capabilities with organic processing facilities, high capacity cold storage units, and logistics centers in Jessore.</p>
+                            <div class='grid grid-cols-2 gap-3 mb-6 text-xs'>
+                                <div class='p-3 bg-navy-900 border border-navy-800 rounded'><span class='text-slate-400 block'>Location:</span><span class='text-white font-bold'>Jessore, BD</span></div>
+                                <div class='p-3 bg-navy-900 border border-navy-800 rounded'><span class='text-slate-400 block'>Sector:</span><span class='text-gold-600 font-bold'>Agriculture</span></div>
+                                <div class='p-3 bg-navy-900 border border-navy-800 rounded'><span class='text-slate-400 block'>Capacity:</span><span class='text-white font-bold'>10,000 MT Cold Storage</span></div>
+                                <div class='p-3 bg-navy-900 border border-navy-800 rounded'><span class='text-slate-400 block'>Farmers:</span><span class='text-gold-600 font-bold'>15,000+ Partners</span></div>
+                            </div>
+                        `
+                    })" class="bg-white rounded-xl overflow-hidden shadow-md border border-slate-200 group hover:shadow-xl transition-all duration-300 cursor-pointer">
                         <div class="relative h-64 bg-navy-950 overflow-hidden flex items-center justify-center text-white">
                             <span class="font-serif text-8xl font-black text-navy-900 select-none">L</span>
                             <div class="absolute inset-0 bg-gradient-to-t from-navy-950 via-transparent to-transparent opacity-80"></div>
@@ -458,40 +595,36 @@
                         <div class="bg-navy-950 p-8 sm:p-10 rounded-2xl shadow-xl border border-navy-800 text-white">
                             <h3 class="text-2xl font-serif font-bold mb-6 text-gold-600">Send an Enquiry</h3>
                             
-                            <form action="#" method="POST" class="space-y-6" onsubmit="event.preventDefault(); alert('Thank you for your interest. A Kapotakkhho corporate representative will contact you shortly.');">
+                            <form action="{{ route('contact') }}" method="GET" class="space-y-6">
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                     <div>
                                         <label for="name" class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Full Name</label>
-                                        <input type="text" id="name" required class="w-full bg-navy-900 border border-navy-800 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-gold-600 transition-colors">
+                                        <input type="text" id="name" name="name" class="w-full bg-navy-900 border border-navy-800 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-gold-600 transition-colors">
                                     </div>
                                     <div>
                                         <label for="email" class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Email Address</label>
-                                        <input type="email" id="email" required class="w-full bg-navy-900 border border-navy-800 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-gold-600 transition-colors">
+                                        <input type="email" id="email" name="email" class="w-full bg-navy-900 border border-navy-800 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-gold-600 transition-colors">
                                     </div>
                                 </div>
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                     <div>
                                         <label for="phone" class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Phone Number</label>
-                                        <input type="tel" id="phone" class="w-full bg-navy-900 border border-navy-800 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-gold-600 transition-colors">
+                                        <input type="tel" id="phone" name="phone" class="w-full bg-navy-900 border border-navy-800 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-gold-600 transition-colors">
                                     </div>
                                     <div>
                                         <label for="division" class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Target Division</label>
-                                        <select id="division" class="w-full bg-navy-900 border border-navy-800 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-gold-600 transition-colors text-slate-400">
-                                            <option value="realestate">Real Estate & Properties</option>
-                                            <option value="construction">Civil Engineering & Construction</option>
-                                            <option value="trading">Trading & Logistics</option>
-                                            <option value="infra">Infrastructure & Utilities</option>
-                                            <option value="agro">Agribusiness & Farms</option>
-                                            <option value="tech">Technology & Systems</option>
+                                        <select id="division" name="department" class="w-full bg-navy-900 border border-navy-800 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-gold-600 transition-colors text-slate-400">
+                                            <option value="Real Estate">Real Estate & Properties</option>
+                                            <option value="Construction">Civil Engineering & Construction</option>
+                                            <option value="Trading">Trading & Logistics</option>
+                                            <option value="Infrastructure">Infrastructure & Utilities</option>
+                                            <option value="Agriculture">Agribusiness & Farms</option>
+                                            <option value="Technology">Technology & Systems</option>
                                         </select>
                                     </div>
                                 </div>
-                                <div>
-                                    <label for="message" class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Message Description</label>
-                                    <textarea id="message" rows="4" required class="w-full bg-navy-900 border border-navy-800 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-gold-600 transition-colors resize-none"></textarea>
-                                </div>
                                 <button type="submit" class="w-full py-4 bg-gold-600 text-navy-950 font-bold hover:bg-gold-700 transition-all rounded-lg text-sm uppercase tracking-wider shadow-lg">
-                                    Submit Corporate Message
+                                    Continue to Enquiry Page
                                 </button>
                             </form>
 

@@ -6,7 +6,10 @@
     <title>Forgot Password — Kapotakkhho Holdings Ltd.</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @endif
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>body { font-family: 'Inter', sans-serif; } .font-serif { font-family: 'Playfair Display', serif; }</style>
 </head>
 <body class="min-h-screen bg-[#0a0f1e] flex items-center justify-center relative overflow-hidden">

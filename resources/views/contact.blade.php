@@ -4,6 +4,8 @@
 
 @section('content')
 
+// E:\Laravel\php82\php.exe artisan serve
+
     <!-- Leaflet CSS for OpenStreetMap -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
 
@@ -487,27 +489,45 @@
         }
     }
 
-    // ─── Contact Form (frontend only) ──────────────────────────────
+    // ─── Contact Form Submission ──────────────────────────────
     document.getElementById('contact-form').addEventListener('submit', function (e) {
         e.preventDefault();
 
+        const form    = this;
         const btn     = document.getElementById('submit-btn');
         const success = document.getElementById('form-success');
+        const formData = new FormData(form);
 
-        // Simulate loading state
+        // Loading state
         btn.disabled   = true;
         btn.innerHTML  = '<svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg> Sending…';
 
-        setTimeout(function () {
-            // Show success message
-            success.classList.remove('hidden');
-            success.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-
-            // Reset form and button
-            document.getElementById('contact-form').reset();
+        fetch("/contact", {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value,
+                'Accept': 'application/json'
+            },
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if(data.success) {
+                success.classList.remove('hidden');
+                success.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                form.reset();
+            } else {
+                alert('An error occurred. Please check your inputs and try again.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('A network error occurred. Please try again.');
+        })
+        .finally(() => {
             btn.disabled  = false;
             btn.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg> Submit Enquiry';
-        }, 1500);
+        });
     });
 
     // ─── Leaflet OpenStreetMap Initialization ──────────────────────────────

@@ -225,9 +225,24 @@
 
                     <!-- Nav CTA Buttons -->
                     <div class="hidden md:flex items-center gap-3">
-                        <a href="{{ route('login') }}" class="btn-admin-login animate-pulse-gold">
-                            🔐 Admin Login
-                        </a>
+                        @auth
+                            @if(Auth::user()->isAdmin())
+                                <a href="{{ route('admin.dashboard') }}" class="btn-admin-login">
+                                    ⚙️ Admin Panel
+                                </a>
+                            @else
+                                <a href="{{ route('profile') }}" class="btn-admin-login">
+                                    👤 My Profile
+                                </a>
+                            @endif
+                            <a href="{{ route('logout') }}" class="text-xs font-semibold text-slate-300 hover:text-red-400 transition-colors px-2 py-1">
+                                Sign Out
+                            </a>
+                        @else
+                            <a href="{{ route('login') }}" class="btn-admin-login">
+                                🔐 Portal Login
+                            </a>
+                        @endauth
                         <a href="{{ route('contact') }}" class="px-5 py-2.5 rounded-sm bg-transparent border border-gold-600 text-gold-600 hover:bg-gold-600 hover:text-navy-950 transition-all font-semibold text-xs uppercase tracking-wider">
                             Get Proposal
                         </a>
@@ -347,43 +362,187 @@
             </div>
         </footer>
 
-        <!-- Pure JS logic for navigation, mobile menu, animations -->
+        <!-- Global Slide-Over Drawer Panel (Clean White Theme with OpenStreetMap) -->
+        <div id="slide-drawer-backdrop" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[100] opacity-0 pointer-events-none transition-opacity duration-300"></div>
+
+        <div id="slide-drawer" class="fixed top-0 right-0 bottom-0 w-full max-w-lg bg-white border-l border-slate-200 text-slate-800 z-[101] translate-x-full transition-transform duration-300 ease-in-out shadow-2xl flex flex-col overflow-hidden">
+            <!-- Drawer Header -->
+            <div class="p-6 border-b border-slate-200 flex items-center justify-between bg-slate-50/90 shrink-0">
+                <div class="space-y-1 pr-4">
+                    <span id="drawer-badge" class="inline-block px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-amber-100 text-amber-800 border border-amber-300/80">Overview</span>
+                    <h3 id="drawer-title" class="text-xl font-serif font-bold text-slate-900 leading-snug">Details</h3>
+                </div>
+                <button id="drawer-close-btn" class="w-10 h-10 rounded-full bg-white border border-slate-200 hover:bg-slate-100 text-slate-500 hover:text-slate-900 flex items-center justify-center transition-all shadow-sm shrink-0">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+
+            <!-- Drawer Body -->
+            <div id="drawer-body" class="p-6 flex-1 overflow-y-auto space-y-6 text-sm text-slate-600 leading-relaxed scrollbar-thin">
+                <!-- Content injected dynamically -->
+            </div>
+
+            <!-- Drawer Footer -->
+            <div id="drawer-footer" class="p-5 border-t border-slate-200 bg-slate-50 flex items-center justify-between gap-3 shrink-0">
+                <a id="drawer-primary-btn" href="{{ route('contact') }}" class="flex-1 py-3 px-4 bg-gold-600 hover:bg-gold-700 text-navy-950 font-bold text-center text-xs uppercase tracking-wider rounded-md transition-all shadow-md">
+                    Get In Touch
+                </a>
+                <button id="drawer-secondary-btn" class="px-5 py-3 bg-white border border-slate-200 hover:bg-slate-100 text-slate-700 font-bold text-xs uppercase tracking-wider rounded-md transition-all">
+                    Close
+                </button>
+            </div>
+        </div>
+
+        <!-- Pure JS logic for navigation, mobile menu, animations, drawer -->
         <script>
+            // Known Bangladesh location coordinates for OpenStreetMap
+            const cityCoords = {
+                'dhaka': { lat: 23.8103, lng: 90.4125 },
+                'purbachal': { lat: 23.8335, lng: 90.5050 },
+                'narayanganj': { lat: 23.6238, lng: 90.5000 },
+                'chattogram': { lat: 22.3569, lng: 91.7832 },
+                'chittagong': { lat: 22.3569, lng: 91.7832 },
+                'sylhet': { lat: 24.8949, lng: 91.8687 },
+                'jessore': { lat: 23.1664, lng: 89.2081 },
+                'jashore': { lat: 23.1664, lng: 89.2081 },
+                'rajshahi': { lat: 24.3745, lng: 88.6042 },
+                'mongla': { lat: 22.4842, lng: 89.6000 },
+                'cox\'s bazar': { lat: 21.4272, lng: 92.0058 },
+                'khulna': { lat: 22.8456, lng: 89.5403 },
+                'bogura': { lat: 24.8465, lng: 89.3777 },
+                'cumilla': { lat: 23.4607, lng: 91.1809 }
+            };
+
+            function getCoordsForLocation(locationStr) {
+                if (!locationStr || typeof locationStr !== 'string' || !locationStr.trim()) return null;
+                const locLower = locationStr.toLowerCase();
+                for (const city in cityCoords) {
+                    if (locLower.includes(city)) return cityCoords[city];
+                }
+                // Default to Dhaka if a location string is provided but specific city is not matched
+                return { lat: 23.8103, lng: 90.4125 };
+            }
+
+            // ── Global White Slide Drawer API with OpenStreetMap ──
+            window.openDrawer = function({ badge, title, content, location, mapCoords, linkText, linkUrl }) {
+                document.getElementById('drawer-badge').innerText = badge || 'Overview';
+                document.getElementById('drawer-title').innerText = title || 'Details';
+                
+                let bodyHtml = content || '';
+
+                // Detect location either from parameter OR from HTML content (e.g. Location: Gulshan, Dhaka)
+                let activeLoc = location;
+                if (!activeLoc && bodyHtml.includes('Location:')) {
+                    const tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = bodyHtml;
+                    const text = tempDiv.innerText || tempDiv.textContent || '';
+                    const match = text.match(/Location:\s*([^\n\r<]+)/i);
+                    if (match && match[1]) {
+                        activeLoc = match[1].trim();
+                    }
+                }
+
+                // Embed OpenStreetMap if location (passed or detected) or mapCoords is present
+                if ((activeLoc && activeLoc.trim()) || mapCoords) {
+                    const coords = mapCoords || getCoordsForLocation(activeLoc);
+                    if (coords) {
+                        const lat = coords.lat;
+                        const lng = coords.lng;
+                        const bbox = `${lng-0.025},${lat-0.015},${lng+0.025},${lat+0.015}`;
+                        const mapUrl = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${lat},${lng}`;
+                        const locName = activeLoc || 'Project Location';
+
+                        bodyHtml += `
+                            <div class="mt-6 pt-6 border-t border-slate-200">
+                                <div class="flex items-center justify-between mb-3">
+                                    <span class="text-xs font-bold uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
+                                        <svg class="w-4 h-4 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                        Location: ${locName}
+                                    </span>
+                                    <span class="text-[10px] text-slate-400 font-medium">OpenStreetMap</span>
+                                </div>
+                                <div class="rounded-xl overflow-hidden border border-slate-200 shadow-sm relative h-48 bg-slate-100">
+                                    <iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="${mapUrl}"></iframe>
+                                </div>
+                            </div>
+                        `;
+                    }
+                }
+
+                document.getElementById('drawer-body').innerHTML = bodyHtml;
+                
+                const primaryBtn = document.getElementById('drawer-primary-btn');
+                if (linkUrl) {
+                    primaryBtn.href = linkUrl;
+                    primaryBtn.innerText = linkText || 'Explore Page';
+                    primaryBtn.style.display = 'inline-block';
+                } else {
+                    primaryBtn.style.display = 'none';
+                }
+
+                const backdrop = document.getElementById('slide-drawer-backdrop');
+                const drawer = document.getElementById('slide-drawer');
+                
+                backdrop.classList.remove('opacity-0', 'pointer-events-none');
+                backdrop.classList.add('opacity-100', 'pointer-events-auto');
+                drawer.classList.remove('translate-x-full');
+                drawer.classList.add('translate-x-0');
+                document.body.style.overflow = 'hidden';
+            };
+
+            window.closeDrawer = function() {
+                const backdrop = document.getElementById('slide-drawer-backdrop');
+                const drawer = document.getElementById('slide-drawer');
+                
+                backdrop.classList.remove('opacity-100', 'pointer-events-auto');
+                backdrop.classList.add('opacity-0', 'pointer-events-none');
+                drawer.classList.remove('translate-x-0');
+                drawer.classList.add('translate-x-full');
+                document.body.style.overflow = '';
+            };
+
+            document.getElementById('drawer-close-btn').addEventListener('click', closeDrawer);
+            document.getElementById('drawer-secondary-btn').addEventListener('click', closeDrawer);
+            document.getElementById('slide-drawer-backdrop').addEventListener('click', closeDrawer);
+
             // ── Mobile Menu Toggle ──
             const mobileMenuBtn = document.getElementById('mobile-menu-btn');
             const mobileMenu   = document.getElementById('mobile-menu');
             const menuIcon     = document.getElementById('menu-icon');
 
-            mobileMenuBtn.addEventListener('click', () => {
-                const isHidden = mobileMenu.classList.contains('hidden');
-                if (isHidden) {
-                    mobileMenu.classList.remove('hidden');
-                    menuIcon.setAttribute('d', 'M6 18L18 6M6 6l12 12');
-                } else {
-                    mobileMenu.classList.add('hidden');
-                    menuIcon.setAttribute('d', 'M4 6h16M4 12h16m-7 6h7');
-                }
-            });
-
-            // Close Mobile Menu on nav-link click
-            mobileMenu.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', () => {
-                    mobileMenu.classList.add('hidden');
-                    menuIcon.setAttribute('d', 'M4 6h16M4 12h16m-7 6h7');
+            if (mobileMenuBtn) {
+                mobileMenuBtn.addEventListener('click', () => {
+                    const isHidden = mobileMenu.classList.contains('hidden');
+                    if (isHidden) {
+                        mobileMenu.classList.remove('hidden');
+                        menuIcon.setAttribute('d', 'M6 18L18 6M6 6l12 12');
+                    } else {
+                        mobileMenu.classList.add('hidden');
+                        menuIcon.setAttribute('d', 'M4 6h16M4 12h16m-7 6h7');
+                    }
                 });
-            });
+
+                mobileMenu.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileMenu.classList.add('hidden');
+                        menuIcon.setAttribute('d', 'M4 6h16M4 12h16m-7 6h7');
+                    });
+                });
+            }
 
             // ── Sticky Header Shrink on Scroll ──
             const navContainer = document.getElementById('nav-container');
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 50) {
-                    navContainer.classList.remove('h-20', 'sm:h-24');
-                    navContainer.classList.add('h-16');
-                } else {
-                    navContainer.classList.remove('h-16');
-                    navContainer.classList.add('h-20', 'sm:h-24');
-                }
-            });
+            if (navContainer) {
+                window.addEventListener('scroll', () => {
+                    if (window.scrollY > 50) {
+                        navContainer.classList.remove('h-20', 'sm:h-24');
+                        navContainer.classList.add('h-16');
+                    } else {
+                        navContainer.classList.remove('h-16');
+                        navContainer.classList.add('h-20', 'sm:h-24');
+                    }
+                });
+            }
 
             // ── Scroll Reveal (IntersectionObserver) ──
             const revealObserver = new IntersectionObserver((entries) => {

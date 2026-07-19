@@ -12,9 +12,9 @@
             <p class="text-slate-500 mt-1 text-sm">Here's what's happening across the organization today.</p>
         </div>
         <div>
-            <button class="bg-amber-600 hover:bg-amber-700 text-white px-5 py-2.5 rounded-xl font-medium text-sm transition-colors shadow-sm shadow-amber-600/20">
+            <a href="{{ route('admin.report') }}" target="_blank" class="inline-block bg-amber-600 hover:bg-amber-700 text-white px-5 py-2.5 rounded-xl font-medium text-sm transition-colors shadow-sm shadow-amber-600/20">
                 Generate Report
-            </button>
+            </a>
         </div>
     </div>
 

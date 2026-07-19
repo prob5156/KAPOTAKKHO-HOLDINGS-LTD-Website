@@ -36,6 +36,33 @@ class PageController extends Controller
         return view('contact');
     }
 
+    public function submitContact(Request $request)
+    {
+        $request->validate([
+            'full_name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'phone' => 'nullable|string|max:20',
+            'department' => 'required|string|max:100',
+            'subject' => 'required|string|max:255',
+            'message' => 'required|string|min:20',
+            'privacy' => 'accepted'
+        ]);
+
+        $fullMessage = "Phone: " . ($request->phone ?? 'N/A') . "\n";
+        $fullMessage .= "Department: " . $request->department . "\n\n";
+        $fullMessage .= "Message:\n" . $request->message;
+
+        \App\Models\Contact::create([
+            'name' => $request->full_name,
+            'email' => $request->email,
+            'subject' => $request->subject,
+            'message' => $fullMessage,
+            'status' => 'Unread'
+        ]);
+
+        return response()->json(['success' => true, 'message' => 'Your enquiry has been submitted successfully.']);
+    }
+
     public function news()
     {
         return view('news');

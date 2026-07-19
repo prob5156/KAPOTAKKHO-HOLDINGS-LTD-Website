@@ -10,6 +10,7 @@ Route::middleware(['activity'])->group(function () {
     Route::get('/projects', [PageController::class, 'projects'])->name('projects');
     Route::get('/divisions', [PageController::class, 'divisions'])->name('divisions');
     Route::get('/contact', [PageController::class, 'contact'])->name('contact');
+    Route::post('/contact', [PageController::class, 'submitContact'])->name('contact.submit');
     Route::get('/news', [PageController::class, 'news'])->name('news');
     Route::get('/careers', [PageController::class, 'careers'])->name('careers');
     Route::get('/investor-relations', [PageController::class, 'investorRelations'])->name('investor-relations');
@@ -20,7 +21,7 @@ Route::middleware(['activity'])->group(function () {
     // Authentication Routes
     Route::get('/login', [App\Http\Controllers\Auth\LoginController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [App\Http\Controllers\Auth\LoginController::class, 'login']);
-    Route::post('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
+    Route::match(['get', 'post'], '/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
 
     Route::get('/register', [App\Http\Controllers\Auth\RegisterController::class, 'showRegistrationForm'])->name('register');
     Route::post('/register', [App\Http\Controllers\Auth\RegisterController::class, 'register']);
@@ -30,9 +31,16 @@ Route::middleware(['activity'])->group(function () {
     Route::post('/forgot-password', function() { return back()->with('status', 'We have emailed your password reset link!'); })->name('password.email');
 });
 
-// Protected Admin Dashboard
+// Authenticated User Profile
+Route::middleware(['auth'])->group(function () {
+    Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'show'])->name('profile');
+    Route::post('/profile', [App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
+});
+
+// Protected Admin Dashboard (Restricted strictly to Admins)
 Route::middleware(['admin'])->group(function () {
     Route::get('/admin/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('admin.dashboard');
+    Route::get('/admin/report', [App\Http\Controllers\Admin\DashboardController::class, 'report'])->name('admin.report');
     Route::resource('/admin/employees', App\Http\Controllers\Admin\EmployeeController::class)->names('admin.employees');
     Route::resource('/admin/departments', App\Http\Controllers\Admin\DepartmentController::class)->names('admin.departments');
     Route::resource('/admin/projects', App\Http\Controllers\Admin\ProjectController::class)->names('admin.projects');
